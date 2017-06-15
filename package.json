@@ -1,0 +1,99 @@
+{
+  "private": true,
+  "name": "babel-starter-kit",
+  "version": "0.0.0",
+  "description": "A project template for authoring and publishing JavaScript libraries",
+  "homepage": "https://www.kriasoft.com/babel-starter-kit/",
+  "repository": "kriasoft/babel-starter-kit",
+  "author": "Kriasoft <hello@kriasoft.com> (https://www.kriasoft.com)",
+  "contributors": [
+    "Konstantin Tarkus <hello@tarkus.me>",
+    "Vladimir Kutepov <frenzzy.man@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [],
+  "main": "index.js",
+  "jsnext:main": "index.es.js",
+  "babel": {
+    "presets": [
+      "latest",
+      "stage-0"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "airbnb-base"
+  },
+  "dependencies": {
+    "whatwg-fetch": "^2.0.3"
+  },
+  "scripts": {
+    "autoprefixer": "postcss -u autoprefixer -r dist/css/*",
+    "lint-scss": "stylelint src/css/*.scss --syntax scss || true",
+    "scss": "node-sass --output-style compressed -o dist/css src/css",
+    "lint": "eslint src test tools",
+    "test": "mocha --compilers js:babel-register",
+    "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
+    "test:cover": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "build:js": "node tools/build",
+    "build:css": "run-s lint-scss scss autoprefixer",
+    "build:images": "run-s imagemin icons",
+    "build": "run-s build:*",
+    "format": "prettier --semi false --write 'src/**/*.js'",
+    "format-standard": "standard --fix",
+    "imagemin": "imagemin src/images/* -o dist/images",
+    "icons": "svgo -f src/images/icons -o dist/images/icons && svg-sprite-generate -d dist/images/icons -o dist/images/icons/sprite.svg",
+    "prepublish": "npm run build",
+    "publish:docs": "easystatic deploy docs --repo kriasoft/babel-starter-kit",
+    "start": "easystatic start docs",
+    "serve": "browser-sync start --server --files \"dist/css/*.css, dist/js/*.js, **/*.html, !node_modules/**/*.html\"",
+    "rollbuild": "rollup -c",
+    "rolldev": "rollup -c -w",
+    "buildsss": "rollup -cm -n hyperapp -f umd -i src/index.js -o dist/hyperapp.js",
+    "watch:css": "onchange \"src/css\" -- run-s build:css",
+    "watch-old:js": "onchange \"src/js\" -- run-s build:js",
+    "watch:images": "onchange \"src/images\" -- run-s build:images",
+    "watch": "run-p serve watch:*"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.17.0",
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-h-jsx": "^1.0.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.16.3",
+    "browser-sync": "^2.17.5",
+    "chai": "^4.0.0-canary.1",
+    "coveralls": "^2.11.14",
+    "del": "^2.2.2",
+    "eslint": "^3.8.0",
+    "eslint-config-airbnb-base": "^10.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "imagemin-cli": "^3.0.0",
+    "istanbul": "^1.1.0-alpha.1",
+    "mocha": "^3.1.2",
+    "node-sass": "^3.7.0",
+    "npm-run-all": "^2.1.1",
+    "onchange": "^2.4.0",
+    "postcss-cli": "^2.5.2",
+    "rollup": "^0.36.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-watch": "^4.0.0",
+    "sinon": "^2.0.0-pre.3",
+    "standard": "^10.0.2",
+    "stylelint": "^7.8.0",
+    "svg-sprite-generator": "0.0.7",
+    "svgo": "^0.6.6"
+  }
+}
